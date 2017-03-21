@@ -10,3 +10,6 @@ Discord bot that streams from [r-a-d.io](https://r-a-d.io/) to a discord voice c
 ## TODO
 - Request songs
 - Joining servers dynamically
+
+## Contact
+Contact me at [sizhe1007@gmail.com](mailto:sizhe1007@gmail.com) or [sy35@st-andrews.ac.uk](mailto:sy35@st-andrews.ac.uk) for any problems, issues or anything else.
