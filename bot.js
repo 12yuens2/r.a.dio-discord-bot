@@ -5,6 +5,7 @@ var bot = new discord.Client();
 
 const RADIO_CHANNELS = ["XFM TEST", "XFM Radio"];
 const RADIO_LINK = "https://relay0.r-a-d.io/main.mp3";
+const API_LINK = "https://r-a-d.io/api";
 
 /* 'loginfo' is the file that contains credentials for the bot i.e. api key */
 const LOGIN_INFO = "loginfo";
@@ -34,13 +35,31 @@ function get_radio_channel(channels) {
 	return channels_to_join;
 }
 
+
+function get_info_api(callback) {
+	request(API_LINK, callback);
+}
+
+function send_playing(channel) {
+	get_info_api(function(err, res, body) {
+		info = JSON.parse(body);
+		channel.sendMessage("Now playing: " + info["main"]["np"]);
+	});
+}
+
 /* 
  * Bot event handlers 
  */
 bot.on("message", function(msg) {
+	switch(msg.content) {
+		case "!playing":
+			send_playing(msg.channel);
+			break;
+	}
 });
 
 bot.on("ready", function() {
+	console.log("Ready");
 	var channels = get_radio_channel(bot.channels.array());
 
 	for (var i = 0; i < channels.length; i++) {
