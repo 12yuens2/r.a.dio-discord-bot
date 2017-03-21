@@ -47,6 +47,26 @@ function send_playing(channel) {
 	});
 }
 
+function send_next(channel) {
+	get_info_api(function(err, res, body) {
+		info = JSON.parse(body);
+		channel.sendMessage("Next song: " + info["main"]["queue"][0]["meta"]);
+	})
+}
+
+function send_queue(channel) {
+	get_info_api(function(err, res, body) {
+		info = JSON.parse(body);
+		queue = info["main"]["queue"]
+		message = "Queue: "
+		for (var i = 0; i < queue.length; i++) {
+			message += "\n" + (i+1) + ". " + queue[i]["meta"];
+		}
+
+		channel.sendMessage(message);
+	});
+}
+
 /* 
  * Bot event handlers 
  */
@@ -54,6 +74,12 @@ bot.on("message", function(msg) {
 	switch(msg.content) {
 		case "!playing":
 			send_playing(msg.channel);
+			break;
+		case "!next":
+			send_next(msg.channel);
+			break;
+		case "!queue":
+			send_queue(msg.channel);
 			break;
 	}
 });
