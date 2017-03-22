@@ -97,6 +97,15 @@ function send_queue(channel) {
 }
 
 
+function send_dj(channel) {
+    get_info_api(function(err, res, body) {
+        info = JSON.parse(body);
+        dj = info["main"]["dj"]["djname"];
+
+        channel.sendMessage("DJ: " + dj);
+    });
+}
+
 /* 
  * Bot event handlers 
  */
@@ -112,6 +121,9 @@ bot.on("message", function(msg) {
             break;
         case "~queue":
             send_queue(msg.channel);
+            break;
+        case "~dj":
+            send_dj(msg.channel);
             break;
         case (msg.content.match(/~join\s[0-9]*/) || {}).input:
             add_channel(msg.content.split(" ")[1]);
