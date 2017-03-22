@@ -1,0 +1,11 @@
+{
+  "api_key": "YOUR_API_KEY_HERE",
+  "voice_channels": [
+                      {
+                        "id": "123456789"
+                      },
+                      {
+                        "id": "123123123123123"
+                      }
+                    ]
+}
