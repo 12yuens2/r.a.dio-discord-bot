@@ -10,7 +10,7 @@ Discord bot that streams from [r-a-d.io](https://r-a-d.io/) to a discord voice c
 - `~move [channel_id]` Move to a different voice channel give the channel id without restarting the stream.
 
 ## Config
-To configure, create a JSON file called `config.json` and put your bot's API key and voice channel IDs in the file. A sample config is given for reference. 
+To configure, create a JSON file called `config.json` and put your bot's API key and voice channel IDs in the file. A sample config is given for reference [here](https://github.com/dR3am5t0rM/r.a.dio-discord-bot/blob/master/config.json).
 
 ## TODO
 - Easy configuration without manually making a json file
