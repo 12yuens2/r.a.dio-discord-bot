@@ -4,7 +4,9 @@ var ytdl = require("ytdl-core");
 var discord = require("discord.js");
 var bot = new discord.Client();
 
-var YT_QUEUE = [];
+var YT_QUEUE = ["https://www.youtube.com/watch?v=NqxJ191ecPQ", "https://www.youtube.com/watch?v=a1Y73sPHKxw", "https://www.youtube.com/watch?v=a1Y73sPHKxw"];
+var CURRENT_YT = "";
+
 var RADIO_CHANNELS = [];
 var CHANNELS_JOINED = [];
 var CONFIG_JSON = {};
@@ -50,8 +52,10 @@ function play_queue() {
     }
     else {
         var link = YT_QUEUE.splice(0, 1)[0];
-        console.log(link);
         var stream = ytdl(link, {filter: "audioonly"});
+        ytdl.getInfo(link, function(err, info) {
+            CURRENT_YT = info.title;
+        });
 
         play_link(stream);
     }
@@ -125,30 +129,64 @@ function get_info_api(callback) {
 
 
 function send_playing(channel) {
-    get_info_api(function(err, res, body) {
-        info = JSON.parse(body);
-        channel.sendMessage("Now playing: " + info["main"]["np"]);
-    });
+    if (playing_radio) {
+        get_info_api(function(err, res, body) {
+            info = JSON.parse(body);
+            channel.sendMessage("Now playing: " + info["main"]["np"]);
+        });
+    }
+    else {
+        channel.sendMessage("Now playing: " + CURRENT_YT);
+    }
 }
 
 function send_next(channel) {
-    get_info_api(function(err, res, body) {
-        info = JSON.parse(body);
-        channel.sendMessage("Next song: " + info["main"]["queue"][0]["meta"]);
-    })
+    if (playing_radio || YT_QUEUE.length == 0) {
+        get_info_api(function(err, res, body) {
+            info = JSON.parse(body);
+            channel.sendMessage("Next song: " + info["main"]["queue"][0]["meta"]);
+        });
+    }
+    else {
+        var link = YT_QUEUE[0];
+        ytdl.getInfo(link, function(err, info) {
+            channel.sendMessage("Next song: " + info.title);
+        });
+    }
 }
 
 function send_queue(channel) {
-    get_info_api(function(err, res, body) {
-        info = JSON.parse(body);
-        queue = info["main"]["queue"]
-        message = "Queue: "
-        for (var i = 0; i < queue.length; i++) {
-            message += "\n" + (i+1) + ". " + queue[i]["meta"];
+    if (playing_radio) {
+        get_info_api(function(err, res, body) {
+            info = JSON.parse(body);
+            queue = info["main"]["queue"]
+            message = "Queue: "
+            for (var i = 0; i < queue.length; i++) {
+                message += "\n" + (i+1) + ". " + queue[i]["meta"];
+            }
+
+            channel.sendMessage(message);
+        });
+    }
+    else {
+        var infos = [];
+        for (var i = 0; i < YT_QUEUE.length; i++) {
+            var promise = ytdl.getInfo(YT_QUEUE[i]);
+            infos.push(promise);
         }
 
-        channel.sendMessage(message);
-    });
+        /* Wait for all promises to finish */
+        Promise.all(infos).then(function(info) {
+            var message = "Queue: ";
+            for (var i = 0; i < YT_QUEUE.length; i++) {
+                message += "\n" + (i+1) + ". " + info[i].title;
+            }
+
+            channel.sendMessage(message);
+        });
+
+    }
+
 }
 
 
