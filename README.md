@@ -6,6 +6,7 @@ Discord bot that streams from [r-a-d.io](https://r-a-d.io/) to a discord voice c
 - `~playing` To get the current song that is playing.
 - `~next` To get the next song that is queued.
 - `~queue` To get the songs currently queued.
+- `~dj` To get the current DJ.
 - `~join [channel_id]` To join a voice channel given the channel id and start playing the stream.
 - `~move [channel_id]` Move to a different voice channel give the channel id without restarting the stream.
 
