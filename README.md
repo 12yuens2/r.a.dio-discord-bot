@@ -9,6 +9,7 @@ Discord bot that streams from [r-a-d.io](https://r-a-d.io/) to a discord voice c
 - `~dj` To get the current DJ.
 - `~join [channel_id]` To join a voice channel given the channel id and start playing the stream.
 - `~move [channel_id]` Move to a different voice channel give the channel id without restarting the stream.
+- `~add [youtube_link]` To play the linked youtube video. Videos are added to a queue and once the queue is empty the stream defaults back to [r-a-d.io](https://r-a-d.io/).
 
 ## Config
 To configure, create a JSON file called `config.json` and put your bot's API key and voice channel IDs in the file. A sample config is given for reference [here](https://github.com/dR3am5t0rM/r.a.dio-discord-bot/blob/master/config.json).
