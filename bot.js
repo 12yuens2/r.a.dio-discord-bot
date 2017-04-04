@@ -4,7 +4,7 @@ var ytdl = require("ytdl-core");
 var discord = require("discord.js");
 var bot = new discord.Client();
 
-var YT_QUEUE = ["https://www.youtube.com/watch?v=NqxJ191ecPQ", "https://www.youtube.com/watch?v=a1Y73sPHKxw", "https://www.youtube.com/watch?v=a1Y73sPHKxw"];
+var YT_QUEUE = [];
 var CURRENT_YT = "";
 
 var RADIO_CHANNELS = [];
